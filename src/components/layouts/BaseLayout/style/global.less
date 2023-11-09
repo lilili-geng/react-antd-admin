@@ -1,0 +1,206 @@
+@height: 60px;
+
+// 抽屉动画
+@keyframes sidebar-fadeout {
+  0% {
+    will-change: width;
+    width: 56px;
+  }
+
+  100% {
+    width: 0px;
+    border: none;
+  }
+}
+
+@keyframes sidebar-fadeout-warp {
+  0% {
+    will-change: width;
+    width: 200px;
+  }
+
+  100% {
+    width: 0px;
+    border: none;
+  }
+}
+
+@keyframes sidebar-fadein-warp {
+  0% {
+    will-change: width;
+    width: 0px;
+  }
+
+  20% {
+    border-right: 1px solid var(--li-br-color);
+  }
+
+  100% {
+    width: 200px;
+  }
+}
+
+// 路由过渡动画
+.li-fade-enter-active,
+.li-fade-leave-active {
+  transition: all 0.5s;
+}
+
+.li-fade-enter-from {
+  opacity: 0;
+  transform: translateX(-30px);
+}
+
+.li-fade-leave-to {
+  opacity: 0;
+  transform: translateX(30px);
+}
+
+.sidebar-open {
+  will-change: transform;
+  transform: translate3d(-56px, 0, 0);
+  perspective: 1000;
+  transition: transform 0.25s ease-in-out;
+  animation: sidebar-fadeout 0.25s ease-in-out 0.25s forwards !important;
+}
+
+.sidebar-open-warp {
+  will-change: transform;
+  transform: translate3d(-256px, 0, 0);
+  perspective: 1000;
+  transition: transform 0.3s ease;
+  // width: 0; //
+  animation: sidebar-fadeout-warp 0.3s ease-in-out forwards !important;
+}
+
+// 抽屉模式适配
+.li-slide {
+  width: 56px;
+  will-change: width;
+  height: calc(100vh - @height);
+  transition: transform 0.3s ease-in-out;
+  background: var(--li-bg-color);
+  box-sizing: border-box;
+  border-right: 1px solid var(--li-br-color);
+  box-shadow: 2px 0px 10px 1px rgba(0, 0, 0, 0.1);
+  display: flex;
+  flex-direction: column;
+  justify-content: space between;
+  align-items: center;
+  // padding-bottom: 20px;
+  transform: translate3d(0, 0, 0);
+  perspective: 1000;
+  z-index: 10;
+}
+
+.li-slide-mixin {
+  position: fixed;
+  top: @height;
+  left: 0;
+  width: 56px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space between;
+  align-items: center;
+  height: calc(100vh - @height);
+  background: var(--li-bg-color);
+  border-right: 1px solid var(--li-br-color);
+  transition: transform 0.3s ease-in-out;
+  z-index: 22;
+  overflow: auto;
+  // padding-bottom: 20px;
+  box-shadow: 2px 0px 10px 1px rgba(0, 0, 0, 0.1);
+}
+
+.li-slide-warp {
+  will-change: width;
+  height: calc(100vh - @height);
+  transition: transform 0.4s ease-in-out;
+  background: var(--li-slide-warp-bg);
+  border-right: 1px solid var(--li-br-color);
+  box-sizing: border-box;
+  overflow: hidden;
+  z-index: 8;
+  animation: sidebar-fadein-warp 0.3s ease-in forwards;
+  width: 200px; //
+}
+
+.li-slide-warp-mixin {
+  width: 200px;
+  position: fixed;
+  top: @height;
+  left: 56px;
+  height: calc(100% - @height);
+  background: var(--li-bg-color);
+  transition: transform 0.4s ease-in-out;
+  border-right: 1px solid var(--li-br-color);
+  z-index: 21;
+}
+
+// layout 移动端适配
+.func() {
+  .li-slide {
+    position: fixed;
+    top: @height;
+    left: 0;
+    width: 56px;
+    height: calc(100vh - @height);
+    background: var(--li-bg-color);
+    transition: transform 0.3s ease-in-out;
+    z-index: 22;
+    overflow: auto;
+  }
+
+  .li-slide-warp {
+    width: 200px;
+    position: fixed;
+    top: @height;
+    left: 56px;
+    height: calc(100% - @height);
+    background: var(--li-bg-color);
+    transition: transform 0.4s ease-in-out;
+    z-index: 21;
+  }
+
+  .sidebar-open {
+    transform: translateX(-56px);
+    transition: all 0.3s ease-in-out;
+    animation: sidebar-fadeout 0.2s ease-in-out 0.2s forwards !important;
+  }
+
+  .sidebar-open-warp {
+    transform: translateX(-256px);
+    transition: all 0.3s ease-in-out;
+    animation: sidebar-fadeout-warp 0.1s ease-in-out 0.1s forwards !important;
+  }
+
+  .li-content {
+    padding: 20px !important;
+    padding-top: 80px !important;
+    flex: 1;
+    height: calc(100vh - 60px);
+    transform: translateX(-100%);
+    transition: all 0.3s ease-in-out;
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .li-header {
+    position: fixed;
+    top: 0;
+    background: var(--li-bg-color);
+    width: calc(100vw - 40px);
+
+    .li-header-right {
+      .icons-box {
+        display: none !important;
+      }
+
+      .search-menu {
+        display: none;
+      }
+    }
+  }
+
+  .func();
+}

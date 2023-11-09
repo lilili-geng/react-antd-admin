@@ -1,0 +1,116 @@
+.no-drawer {
+  will-change: width;
+  height: calc(100vh - 60px);
+  transition: transform 0.3s ease-in-out;
+  background: var(--li-bg-color);
+  box-sizing: border-box;
+  border-right: 1px solid var(--li-br-color);
+  box-shadow: 2px 0px 10px 1px rgba(0, 0, 0, 0.1);
+  display: block !important;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  transform: translate3d(0, 0, 0);
+  perspective: 1000;
+  z-index: 10;
+  border: transparent;
+}
+
+.li-slide-warp {
+  will-change: width;
+  height: calc(100vh - 60px);
+  transition: transform 0.4s ease-in-out;
+  background: var(--li-slide-warp-bg);
+  border-right: 1px solid var(--li-br-color);
+  box-sizing: border-box;
+  overflow: hidden;
+  z-index: 8;
+  animation: sidebar-fadein-warp-9f345807 0.3s ease-in forwards;
+  width: 200px;
+  transition: all 0.3s ease;
+
+  .warp-box {
+    width: 100%;
+    height: 48px;
+    display: flex;
+    align-items: center;
+    padding: 0 20px;
+    justify-content: space-between;
+
+    .warp-title {
+      cursor: pointer;
+      color: var(--li-tx-color);
+      font-size: 16px;
+      font-weight: bold;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      overflow: hidden;
+    }
+
+    .icon-box {
+      display: inline-block;
+      width: 24px;
+      height: 24px;
+      background: #F5F5F5;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 50%;
+      cursor: pointer;
+    }
+  }
+
+  .warp-menu {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    padding: 0 20px;
+
+    .menu {
+      width: 100%;
+      margin-top: 15px;
+      font-size: 14px;
+      font-weight: 400;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      transition: 0.3s all ease;
+      color: #475569;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      align-content: center;
+
+      .dot {
+        display: block;
+        color: #ccc;
+        font-size: 10px;
+        margin-right: 5px;
+      }
+
+      .title {
+        display: block;
+      }
+    }
+
+    .active {
+      width: 100%;
+      cursor: pointer;
+      color: #0057FE;
+      display: flex;
+      align-items: center;
+      align-content: center;
+      background: transparent !important;
+
+      .dot {
+        display: block;
+        color: #0057FE;
+        margin-right: 5px;
+      }
+
+      .title {
+        display: block;
+      }
+    }
+  }
+}
