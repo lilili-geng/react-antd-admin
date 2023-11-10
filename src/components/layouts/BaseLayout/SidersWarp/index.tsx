@@ -12,8 +12,8 @@ export const SidersWarp = () => {
 
   const { activeSidersWarp, setActiveSidersWarp, _showRightStateFalse, showSidersWarp, menuListItem, menuListTitlte } = useLayout()
 
-
   const storedMenuListItem = localStorage.getItem('menuListItem');
+
   const parsedMenuListItem: StoredMenuItem[] = storedMenuListItem ? JSON.parse(storedMenuListItem) : [];
 
   const routerNative = (router: StoredMenuItem | IRouterConfig) => {
@@ -27,13 +27,14 @@ export const SidersWarp = () => {
     localStorage.setItem('activeSidersWarp', activeSidersWarp);
   }, [activeSidersWarp]);
 
-  const slideWarpClassName = showSidersWarp ? 'li-slide-warp no-drawer' : 'li-slide-warp no-drawer sidebar-open-warp';
+  const slideWarpClassName = showSidersWarp ? 'li-slide-warp no-drawer bg-skin-bg' : 'li-slide-warp no-drawer sidebar-open-warp bg-skin-bg';
 
   return (
     <div className={slideWarpClassName}>
       <div className="warp-box">
-        <div className="warp-title">{menuListTitlte || localStorage.getItem("menuListTitlte")}</div>
-        <span className="icon-box" onClick={() => { _showRightStateFalse(); }}>
+        <div className="text-text font-bold">{menuListTitlte || localStorage.getItem("menuListTitlte")}</div>
+
+        <span className="icon-box bg-slate-300" onClick={() => { _showRightStateFalse(); }}>
           <LeftOutlined />
         </span>
       </div>

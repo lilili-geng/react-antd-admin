@@ -11,7 +11,7 @@ const Ceshi = () => {
 
 
   return (
-    <div >
+    <div className='text-text'>
       <div>{t('home')}</div>
       <div>
         <button onClick={() => { changelanguage() }}>

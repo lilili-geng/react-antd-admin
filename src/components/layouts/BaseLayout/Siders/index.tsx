@@ -6,6 +6,7 @@ import { IRouterConfig } from "@/types";
 import { useEffect, useState } from "react";
 import iconDart from "@/assets/layout/icon-dart.png"
 import iconLight from "@/assets/layout/icon-light.png"
+import { useLayoutProvider } from "@/provider/modules/layout";
 
 export const Siders = () => {
 
@@ -13,7 +14,8 @@ export const Siders = () => {
 
   const { active, showSidersWarp, menuList, setActive, setMenuListItem, _showRightStateTrue, _showRightStateFalse } = useLayout()
 
-  const [isDarkMode, setIsDarkMode] = useState<boolean>(false);
+
+  const { currentMode, clickCurrentMode } = useLayoutProvider()
 
   const handleIconClick = (route: IRouterConfig) => {
     setActive(route.path);
@@ -24,29 +26,26 @@ export const Siders = () => {
     localStorage.setItem('menuListTitlte', route.title);
   };
 
-  const toggleTheme = () => {
-    setIsDarkMode(!isDarkMode);
-  }
 
   useEffect(() => {
     localStorage.setItem('active', active);
   }, [active]);
 
   return (
-    <div className="li-slide no-drawer">
+    <div className="li-slide no-drawer bg-skin-bg">
       <div className="w-[100%] h-[100%] flex flex-col justify-between items-center">
-        {
-          (!showSidersWarp && active !== '/') && <div className="slide-icons mb-[20px]">
-            <div className="iconButton"  >
-              <RightOutlined onClick={_showRightStateTrue} />
-            </div>
-          </div>
-        }
         {menuList.map((route, index) => (
           <div
             key={index}
             className={`slide-icons`}
           >
+            {
+              (!showSidersWarp && active !== '/') && <div className="mb-[10px]">
+                <div className="iconButton"  >
+                  <RightOutlined onClick={_showRightStateTrue} />
+                </div>
+              </div>
+            }
             <HomeOutlined
               className={`mb-[10px] ${active === '/' ? 'active' : ''}`}
               onClick={() => { navigate('/'); setActive('/'); _showRightStateFalse() }}
@@ -58,18 +57,18 @@ export const Siders = () => {
         ))}
         <div className="theme-icons">
           {
-            isDarkMode ? <img
+            currentMode == 'light' ? <img
               width="15"
               height="15"
               src={iconDart}
               alt="dart"
-              onClick={() => { toggleTheme() }}
+              onClick={() => { clickCurrentMode('dart') }}
             /> : <img
               width="15"
               height="15"
               src={iconLight}
               alt="light"
-              onClick={() => { toggleTheme() }}
+              onClick={() => { clickCurrentMode('light') }}
             />
           }
         </div>

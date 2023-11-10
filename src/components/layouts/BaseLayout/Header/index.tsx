@@ -1,6 +1,5 @@
 import "./index.less"
 import SlideLogo from "@/assets/image/login/logo.svg"
-import SlideClose from "@/assets/layout/slide-close.png"
 import UserDefalutIcon from "@/components/layouts/image/user-defalut-icon.png"
 import { MenuProps, Select } from 'antd';
 import { Dropdown } from 'antd';
@@ -16,9 +15,8 @@ export const Headers = (props: any) => {
 
   const { logout } = useUserProvider();
 
-  const { fullscreen, toggleFullscreen } = useLayoutProvider();
+  const { fullscreen, toggleFullscreen, currentMode } = useLayoutProvider();
 
-  const { isSidebarOpen, isSidebarWarpOpen } = props
 
   let { i18n } = useTranslation()
 
@@ -67,17 +65,12 @@ export const Headers = (props: any) => {
   ];
 
   return (
-    <header className='li-header'>
+    <header className="li-header bg-skin-bg border-customColor3Bottom">
       <div className="li-header-left">
-        {isSidebarOpen || isSidebarWarpOpen ? <div>
-          <img
-            v-if="isSidebarOpen || isSidebarWarpOpen"
-            src="@/assets/layout/slide-open.png"
-            alt=""
-          />
-          <img v-else className="p-1" src={SlideClose} alt="" />
-        </div> : <img src={SlideLogo} alt="" />
-        }
+        <img src={SlideLogo} alt="" />
+        <div className="text-text">
+          admin后台管理
+        </div>
       </div>
       <div className="li-header-right">
         <div className="search-menu">
@@ -104,14 +97,16 @@ export const Headers = (props: any) => {
             ]}
           />
         </div>
-
         {
-          !fullscreen ? <FullscreenOutlined onClick={() => { toggleFullscreen() }} /> : <FullscreenExitOutlined onClick={() => { toggleFullscreen() }} />
+          !fullscreen ?
+            <FullscreenOutlined className="text-text" onClick={() => { toggleFullscreen() }} />
+            :
+            <FullscreenExitOutlined className="text-text" onClick={() => { toggleFullscreen() }} />
         }
         <Dropdown menu={{ items: i18nItem }}>
           <div className="flex items-center ml-[25px] cursor-pointer">
             <div className="flex flex-col">
-              <UnorderedListOutlined />
+              <UnorderedListOutlined className="text-text" />
             </div>
           </div>
         </Dropdown>
@@ -124,7 +119,7 @@ export const Headers = (props: any) => {
               alt=""
             />
             <div className="flex flex-col">
-              <span className="text-lg font-[400]">Admin</span>
+              <span className='text-lg font-[400] text-text'>Admin</span>
               <span className="text-sm font-[400] text-[#999999]">超级管理员</span>
             </div>
           </div>

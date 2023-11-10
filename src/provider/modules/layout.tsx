@@ -4,12 +4,17 @@ import { createContext, useContext, useMemo, useState } from "react";
 const layoutContext = createContext<LayoutContextValue>({
   showSidersWarp: false,
   fullscreen: false,
+  currentMode: "light",
   clickSiderWarp: (type: boolean) => {
+    throw new Error("clickSiderWarp not implemented");
+  },
+  clickCurrentMode: (type: string) => {
     throw new Error("clickSiderWarp not implemented");
   },
   toggleFullscreen: () => {
     throw new Error("toggleFullscreen not implemented");
   },
+
 });
 
 export function LayoutProvider(props: { children: React.ReactNode }) {
@@ -19,10 +24,12 @@ export function LayoutProvider(props: { children: React.ReactNode }) {
 
   const [fullscreen, setFullscreen] = useState<boolean>(false);
 
+  const [currentMode, setCurrentMode] = useState<string>('light');
+
+
   const clickSiderWarp = (type: boolean) => {
     setShowSidersWarp(type);
   };
-
 
   // 全屏
   const toggleFullscreen = () => {
@@ -56,15 +63,27 @@ export function LayoutProvider(props: { children: React.ReactNode }) {
   };
 
 
+  // 主题色
+  const clickCurrentMode = (tyoe: string) => {
+    const themes = ['dart', 'light']
+    const body = document.body;
+    themes.forEach(e => {
+      body.classList.remove(e)
+    })
+    body.classList.add(tyoe)
+    setCurrentMode(tyoe)
+  }
 
   const value = useMemo<LayoutContextValue>(
     () => ({
       fullscreen,
+      currentMode,
       showSidersWarp,
       clickSiderWarp,
-      toggleFullscreen
+      toggleFullscreen,
+      clickCurrentMode
     }),
-    [fullscreen, showSidersWarp, clickSiderWarp, toggleFullscreen]
+    [fullscreen, currentMode, showSidersWarp, clickSiderWarp, toggleFullscreen, clickCurrentMode]
   );
 
   return <layoutContext.Provider value={value}>{children}</layoutContext.Provider>;

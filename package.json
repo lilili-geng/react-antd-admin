@@ -3,6 +3,10 @@
   "private": true,
   "version": "0.0.0",
   "type": "module",
+  "author": {
+    "name": "react-vite-template",
+    "url": "https://github.com/lilili-geng/react-antd-admin"
+  },
   "scripts": {
     "dev": "vite",
     "build": "vite build",

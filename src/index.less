@@ -3,11 +3,34 @@
 @import 'tailwindcss/utilities';
 @import '@/assets/styles/base.css';
 @import '@/assets/styles/variable.less';
-@import '@/components/layouts/BaseLayout/style/global.less';
-@import '@/components/layouts/BaseLayout/style/vars.less';
+@tailwind base;
+
+@tailwind components;
+
+@tailwind utilities;
 
 html {
   >div {
     color: red;
+  }
+}
+
+// 只能rgb
+@layer base {
+  :root {
+    --color-bg-l1: 0, 0, 0;
+    --color-bg-l2: 255, 255, 255;
+  }
+
+  .dart {
+    --color-bg-l1: 255, 255, 255;
+    --color-bg-l2: 32, 43, 64;
+    --color-bg-l3: 56, 71, 102;
+  }
+
+  .light {
+    --color-bg-l1: 0, 0, 0;
+    --color-bg-l2: 255, 255, 255;
+    --color-bg-l3: 230, 230, 230;
   }
 }

@@ -1,5 +1,13 @@
 /** @type {import('tailwindcss').Config} */
 
+function withOpacity(variableName) {
+  return ({opacityValue}) => {
+      if (opacityValue != null) {
+          return `rgba(var(${variableName}),${opacityValue})`
+      }
+      return `rgb(var(${variableName})`
+  }
+}
 module.exports = {
   corePlugins: {
     preflight: false,
@@ -12,8 +20,18 @@ module.exports = {
       fontWeight: {
       },
       colors: {
+        text: withOpacity(`--color-bg-l1`),
       },
-      backgroundImage: {
+      backgroundColor: {
+        skin: {
+          bg: withOpacity(`--color-bg-l2`),
+        }
+      },
+      borderColor: {
+        customColor3Bottom: withOpacity(`--color-bg-l3`), 
+      },
+      borderWidth: {
+        customColor3Bottom: '0 0 1px 0', // 设置边框底部
       },
       spacing: {},
       maxWidth: {
