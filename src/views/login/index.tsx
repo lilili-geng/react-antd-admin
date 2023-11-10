@@ -4,13 +4,13 @@ import { LoginParams } from '@/types/login';
 import { LockOutlined, UserOutlined } from '@ant-design/icons';
 import { Button, Checkbox, Form, Input, Tabs, message } from 'antd';
 import { useState } from 'react';
-import { useLoginHooks } from "@/hooks/login"
 import { useNavigate } from "react-router";
+import { useUserProvider } from '@/provider/modules/user';
 export default function Login() {
 
   const [loading, setLoading] = useState<boolean>(false)
 
-  const { login } = useLoginHooks()
+  const { handleLogin } = useUserProvider();
 
   const navigate = useNavigate()
 
@@ -69,7 +69,7 @@ export default function Login() {
     setLoading(true)
     navigate("/")
     try {
-      // login(values)
+      // handleLogin(values)
       setLoading(false)
     } catch (error: any) {
       setLoading(false)
@@ -93,8 +93,6 @@ export default function Login() {
         <div >
           <Tabs defaultActiveKey="1" items={formTabs()} onChange={onChange} />
         </div>
-
-
       </div>
     </div>
   );

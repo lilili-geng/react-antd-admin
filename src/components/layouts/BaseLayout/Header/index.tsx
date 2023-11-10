@@ -5,12 +5,13 @@ import UserDefalutIcon from "@/components/layouts/image/user-defalut-icon.png"
 import { MenuProps, Select } from 'antd';
 import { Dropdown } from 'antd';
 import { SwapRightOutlined } from "@ant-design/icons";
-import { useLoginHooks } from "@/hooks/login"
+import { useUserProvider } from '@/provider/modules/user';
+import { useNavigate } from "react-router";
 
 // 暂时没有传参 后期要修改把any替换成正确类型
 export const Headers = (props: any) => {
 
-  const { logout } = useLoginHooks()
+  const { logout } = useUserProvider();
 
   const onChange = (value: string) => {
     console.log(`selected ${value}`);
@@ -23,13 +24,13 @@ export const Headers = (props: any) => {
   const filterOption = (input: string, option?: { label: string; value: string }) =>
     (option?.label ?? '').toLowerCase().includes(input.toLowerCase());
 
-
+  const navigate = useNavigate()
 
   const items: MenuProps['items'] = [
     {
       key: '1',
       label: (
-        <div onClick={() => { logout() }}>
+        <div onClick={() => { logout(); navigate("/login") }}>
           <SwapRightOutlined /> <span>退出登陆</span>
         </div>
       ),

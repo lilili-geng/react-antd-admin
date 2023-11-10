@@ -9,7 +9,7 @@ export const Siders = () => {
 
   const navigate = useNavigate();
 
-  const { active, layoutState, menuList, setActive, setMenuListItem, _showRightStateTrue, _showRightStateFalse } = useLayout()
+  const { active, showSidersWarp, menuList, setActive, setMenuListItem, _showRightStateTrue, _showRightStateFalse } = useLayout()
 
   const handleIconClick = (route: IRouterConfig) => {
     setActive(route.path);
@@ -28,7 +28,7 @@ export const Siders = () => {
   return (
     <div className="li-slide no-drawer">
       {
-        (!layoutState && active !== '/') && <div className="slide-icons mb-[20px]">
+        (!showSidersWarp && active !== '/') && <div className="slide-icons mb-[20px]">
           <div className="iconButton"  >
             <RightOutlined onClick={_showRightStateTrue} />
           </div>

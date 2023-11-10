@@ -10,7 +10,7 @@ export const SidersWarp = () => {
 
   const navigate = useNavigate();
 
-  const { activeSidersWarp, setActiveSidersWarp, _showRightStateFalse, layoutState, menuListItem, menuListTitlte } = useLayout()
+  const { activeSidersWarp, setActiveSidersWarp, _showRightStateFalse, showSidersWarp, menuListItem, menuListTitlte } = useLayout()
 
 
   const storedMenuListItem = localStorage.getItem('menuListItem');
@@ -27,7 +27,7 @@ export const SidersWarp = () => {
     localStorage.setItem('activeSidersWarp', activeSidersWarp);
   }, [activeSidersWarp]);
 
-  const slideWarpClassName = layoutState ? 'li-slide-warp no-drawer' : 'li-slide-warp no-drawer sidebar-open-warp';
+  const slideWarpClassName = showSidersWarp ? 'li-slide-warp no-drawer' : 'li-slide-warp no-drawer sidebar-open-warp';
 
   return (
     <div className={slideWarpClassName}>

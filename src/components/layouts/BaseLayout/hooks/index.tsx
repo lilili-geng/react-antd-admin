@@ -1,12 +1,12 @@
-import { useRecoilState } from "recoil";
-import Store from "@/store";
 import { IRouterConfig } from '@/types';
 import { routersConfig } from '@/router/config';
 import { useEffect, useState } from "react";
+import { useLayoutProvider } from '@/provider/modules/layout';
 
 export const useLayout = () => {
 
-  const [layoutState, setLayoutState] = useRecoilState(Store.LayoutState);
+  const { showSidersWarp, clickSiderWarp } = useLayoutProvider();
+
   const [menuList, setMenuList] = useState<IRouterConfig[]>([])
 
   const [menuListItem, setMenuListItem] = useState<IRouterConfig[] | undefined>([]);
@@ -26,21 +26,22 @@ export const useLayout = () => {
   useEffect(() => {
     const storedLayoutState = localStorage.getItem('layoutState');
     if (storedLayoutState) {
-      setLayoutState(storedLayoutState === 'true');
+      clickSiderWarp(storedLayoutState === 'true');
     } else {
-      localStorage.setItem('layoutState', layoutState.toString());
+      localStorage.setItem('layoutState', showSidersWarp.toString());
     }
-  }, [setLayoutState, layoutState]);
+  }, [showSidersWarp]);
 
   const _showRightStateTrue = () => {
-    setLayoutState(true);
+    clickSiderWarp(true);
     localStorage.setItem('layoutState', 'true');
   };
 
   const _showRightStateFalse = () => {
-    setLayoutState(false);
+    clickSiderWarp(false);
     localStorage.setItem('layoutState', 'false');
   };
+
 
 
   useEffect(() => {
@@ -71,7 +72,7 @@ export const useLayout = () => {
     setActive,
     activeSidersWarp,
     setActiveSidersWarp,
-    layoutState,
+    showSidersWarp,
     menuList,
     menuListItem,
     menuListTitlte,
