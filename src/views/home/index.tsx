@@ -1,11 +1,11 @@
-import { Row, Col, Button } from "antd";
+import { Col, Row } from "antd";
 
 export default function Home() {
 
 
   return (
     <div className="grid-demo">
-      <Row gutter={[16, 16]}>
+      <Row>
         <Col span={24} md={12} lg={8}>
           <div className="h-[100px] m-[10px] bg-[#f44336]" >
           </div>

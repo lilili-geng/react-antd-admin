@@ -1,8 +1,23 @@
+import { useTranslation } from 'react-i18next'
 
 const Ceshi = () => {
+  let { t, i18n } = useTranslation()
+
+
+  const changelanguage = () => {
+    const newLanguage = i18n.language === 'enUs' ? 'zhCn' : 'enUs';
+    i18n.changeLanguage(newLanguage);
+  }
+
+
   return (
-    <div>
-      <p>This is another Ceshi.</p>
+    <div >
+      <div>{t('home')}</div>
+      <div>
+        <button onClick={() => { changelanguage() }}>
+          {i18n.language === 'enUs' ? 'enUs' : 'zhCn'}
+        </button>
+      </div>
     </div>
   );
 };

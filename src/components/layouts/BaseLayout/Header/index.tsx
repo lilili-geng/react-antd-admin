@@ -4,14 +4,24 @@ import SlideClose from "@/assets/layout/slide-close.png"
 import UserDefalutIcon from "@/components/layouts/image/user-defalut-icon.png"
 import { MenuProps, Select } from 'antd';
 import { Dropdown } from 'antd';
-import { SwapRightOutlined } from "@ant-design/icons";
+import { FullscreenExitOutlined, FullscreenOutlined, SwapRightOutlined, UnorderedListOutlined } from "@ant-design/icons";
 import { useUserProvider } from '@/provider/modules/user';
 import { useNavigate } from "react-router";
+import { useTranslation } from 'react-i18next'
+import { useLayoutProvider } from "@/provider/modules/layout";
+
 
 // 暂时没有传参 后期要修改把any替换成正确类型
 export const Headers = (props: any) => {
 
   const { logout } = useUserProvider();
+
+  const { fullscreen, toggleFullscreen } = useLayoutProvider();
+
+  const { isSidebarOpen, isSidebarWarpOpen } = props
+
+  let { i18n } = useTranslation()
+
 
   const onChange = (value: string) => {
     console.log(`selected ${value}`);
@@ -37,8 +47,25 @@ export const Headers = (props: any) => {
     },
   ];
 
+  const i18nItem = [
+    {
+      key: '1',
+      label: (
+        <div onClick={() => { i18n.changeLanguage('enUs'); }}>
+          <SwapRightOutlined /> <span>English</span>
+        </div>
+      ),
+    },
+    {
+      key: '2',
+      label: (
+        <div onClick={() => { i18n.changeLanguage('zhCn'); }}>
+          <SwapRightOutlined /> <span>简体中文</span>
+        </div>
+      ),
+    },
+  ];
 
-  const { isSidebarOpen, isSidebarWarpOpen } = props
   return (
     <header className='li-header'>
       <div className="li-header-left">
@@ -77,6 +104,18 @@ export const Headers = (props: any) => {
             ]}
           />
         </div>
+
+        {
+          !fullscreen ? <FullscreenOutlined onClick={() => { toggleFullscreen() }} /> : <FullscreenExitOutlined onClick={() => { toggleFullscreen() }} />
+        }
+        <Dropdown menu={{ items: i18nItem }}>
+          <div className="flex items-center ml-[25px] cursor-pointer">
+            <div className="flex flex-col">
+              <UnorderedListOutlined />
+            </div>
+          </div>
+        </Dropdown>
+
         <Dropdown menu={{ items }}>
           <div className="flex items-center ml-[25px] cursor-pointer">
             <img
