@@ -20,18 +20,24 @@ module.exports = {
       fontWeight: {
       },
       colors: {
-        text: withOpacity(`--color-bg-l1`),
+        li: {
+          color: withOpacity(`--li-text-color`),
+          textIconText: withOpacity(`--li-textIconText-color`),
+        }
       },
       backgroundColor: {
-        skin: {
-          bg: withOpacity(`--color-bg-l2`),
+        li: {
+          bg: withOpacity(`--li-bg-color`),
+          iconLeftBg: withOpacity(`--li-iconLeftBg-color`),
         }
       },
       borderColor: {
-        customColor3Bottom: withOpacity(`--color-bg-l3`), 
+        li: {
+          'border-color': withOpacity(`--li-border-color`), 
+        }
       },
       borderWidth: {
-        customColor3Bottom: '0 0 1px 0', // 设置边框底部
+        '1': '1px',
       },
       spacing: {},
       maxWidth: {

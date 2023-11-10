@@ -65,16 +65,16 @@ export const Headers = (props: any) => {
   ];
 
   return (
-    <header className="li-header bg-skin-bg border-customColor3Bottom">
+    <header className="li-header bg-li-bg border-b-1 border-li-border-color">
       <div className="li-header-left">
         <img src={SlideLogo} alt="" />
-        <div className="text-text">
+        <div className="text-li-color">
           admin后台管理
         </div>
       </div>
       <div className="li-header-right">
         <div className="search-menu">
-          <Select
+          {/* <Select
             showSearch
             placeholder="Select a person"
             optionFilterProp="children"
@@ -95,18 +95,18 @@ export const Headers = (props: any) => {
                 label: 'Tom',
               },
             ]}
-          />
+          /> */}
         </div>
         {
           !fullscreen ?
-            <FullscreenOutlined className="text-text" onClick={() => { toggleFullscreen() }} />
+            <FullscreenOutlined className="text-li-color" onClick={() => { toggleFullscreen() }} />
             :
-            <FullscreenExitOutlined className="text-text" onClick={() => { toggleFullscreen() }} />
+            <FullscreenExitOutlined className="text-li-color" onClick={() => { toggleFullscreen() }} />
         }
         <Dropdown menu={{ items: i18nItem }}>
           <div className="flex items-center ml-[25px] cursor-pointer">
             <div className="flex flex-col">
-              <UnorderedListOutlined className="text-text" />
+              <UnorderedListOutlined className="text-li-color" />
             </div>
           </div>
         </Dropdown>
@@ -119,7 +119,7 @@ export const Headers = (props: any) => {
               alt=""
             />
             <div className="flex flex-col">
-              <span className='text-lg font-[400] text-text'>Admin</span>
+              <span className='text-lg font-[400] text-li-color'>Admin</span>
               <span className="text-sm font-[400] text-[#999999]">超级管理员</span>
             </div>
           </div>

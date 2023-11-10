@@ -27,15 +27,15 @@ export const SidersWarp = () => {
     localStorage.setItem('activeSidersWarp', activeSidersWarp);
   }, [activeSidersWarp]);
 
-  const slideWarpClassName = showSidersWarp ? 'li-slide-warp no-drawer bg-skin-bg' : 'li-slide-warp no-drawer sidebar-open-warp bg-skin-bg';
+  const slideWarpClassName = showSidersWarp ? 'li-slide-warp no-drawer ' : 'li-slide-warp no-drawer sidebar-open-warp ';
 
   return (
-    <div className={slideWarpClassName}>
+    <div className={`bg-li-bg border-r-1 border-li-border-color ${slideWarpClassName}`}>
       <div className="warp-box">
-        <div className="text-text font-bold">{menuListTitlte || localStorage.getItem("menuListTitlte")}</div>
+        <div className="text-li-color font-bold">{menuListTitlte || localStorage.getItem("menuListTitlte")}</div>
 
-        <span className="icon-box bg-slate-300" onClick={() => { _showRightStateFalse(); }}>
-          <LeftOutlined />
+        <span className="icon-box bg-li-iconLeftBg " onClick={() => { _showRightStateFalse(); }}>
+          <LeftOutlined className="text-li-textIconText" />
         </span>
       </div>
 

@@ -32,7 +32,7 @@ export const Siders = () => {
   }, [active]);
 
   return (
-    <div className="li-slide no-drawer bg-skin-bg">
+    <div className="li-slide no-drawer bg-li-bg border-r-1 border-li-border-color">
       <div className="w-[100%] h-[100%] flex flex-col justify-between items-center">
         {menuList.map((route, index) => (
           <div
