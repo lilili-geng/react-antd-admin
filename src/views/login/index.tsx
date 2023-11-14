@@ -87,7 +87,7 @@ export default function Login() {
         <div className="w-[368px]">
           <div className="flex items-center">
             <img src={logo} className="w-[94px] h-[57px] mb-[20px] mr-5"></img>
-            <span className="w-[200px] h-[35px] opacity-100 text-[22px] font-bold mb-5">react后台管理框架</span>
+            <span className="w-[200px] h-[35px] opacity-100 text-[22px] font-bold mb-5">li-Admin后台管理</span>
           </div>
         </div>
         <div >

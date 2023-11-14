@@ -69,7 +69,7 @@ export const Headers = (props: any) => {
       <div className="li-header-left">
         <img src={SlideLogo} alt="" />
         <div className="text-li-color">
-          admin后台管理
+          li-Admin后台管理
         </div>
       </div>
       <div className="li-header-right">

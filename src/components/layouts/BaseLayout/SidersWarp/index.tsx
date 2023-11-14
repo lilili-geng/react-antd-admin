@@ -32,8 +32,9 @@ export const SidersWarp = () => {
   return (
     <div className={`bg-li-bg border-r-1 border-li-border-color ${slideWarpClassName}`}>
       <div className="warp-box">
-        <div className="text-li-color font-bold">{menuListTitlte || localStorage.getItem("menuListTitlte")}</div>
-
+        {
+          showSidersWarp && <div className="text-li-color font-bold">{menuListTitlte || localStorage.getItem("menuListTitlte")}</div>
+        }
         <span className="icon-box bg-li-iconLeftBg " onClick={() => { _showRightStateFalse(); }}>
           <LeftOutlined className="text-li-textIconText" />
         </span>
