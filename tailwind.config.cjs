@@ -22,6 +22,7 @@ module.exports = {
       colors: {
         li: {
           color: withOpacity(`--li-text-color`),
+          colorBlue: withOpacity(`--li-text-color-blue`),
           textIconText: withOpacity(`--li-textIconText-color`),
         }
       },
@@ -29,6 +30,7 @@ module.exports = {
         li: {
           bg: withOpacity(`--li-bg-color`),
           iconLeftBg: withOpacity(`--li-iconLeftBg-color`),
+          fitbg:withOpacity(`--li-bg-color-grey`)
         }
       },
       borderColor: {

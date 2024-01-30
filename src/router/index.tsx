@@ -35,18 +35,18 @@ const wrapper = (configItem: IConfigItem) => {
 // TODO 路由守卫 有的token了 直接放开就行
 const RouterBeforeEach = (props: { children: React.ReactNode; route: any; }) => {
   const { children, route } = props;
-  // const location = useLocation();
-  // const { pathname } = location;
-  // const access_token = localStorage.getItem('_accessToken');
-  // const accessLogin = [
-  //   '/login',
-  // ].find((path) => pathname.startsWith(path));
-  // if (route.meta?.title !== undefined) {
-  //   document.title = route.meta.title;
-  // }
-  // if (!accessLogin && !access_token) {
-  //   return <Navigate to="/login" replace />;
-  // }
+  const location = useLocation();
+  const { pathname } = location;
+  const access_token = localStorage.getItem('_accessToken');
+  const accessLogin = [
+    '/login',
+  ].find((path) => pathname.startsWith(path));
+  if (route.meta?.title !== undefined) {
+    document.title = route.meta.title;
+  }
+  if (!accessLogin && !access_token) {
+    return <Navigate to="/login" replace />;
+  }
   return children;
 }
 

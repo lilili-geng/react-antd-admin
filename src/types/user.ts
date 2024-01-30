@@ -1,27 +1,54 @@
-export interface User {
-  name: String,
-  age: number,
-  phone: number,
-  email: String,
-  password: String
-}
-
-export interface ServiceUserInfo {
+// 公共接口
+export interface ApiResponse<T> {
   code: number;
-  msg: string;
-  data: GetServiceUserInfoReply
+  message: string;
+  data: T;
+}
+export interface User {
+  id: number;
+  userName: string;
+  passWord: string;
+  phone: string;
+  avatar: string;
+  email: string;
+  salt: string;
+  loginTime: Date | null;
+  loginOutTime: Date | null;
+  isLogOut: boolean;
 }
 
-export interface GetServiceUserInfoReply {
-  id: number // 用户名id
-  serviceProviderId: number // 服务商id
-  username: string // 用户名
-  nickname: string // 昵称
-  phoneNumber: string // 手机号
-  email: string // 邮箱
-  name: string // 姓名
-  avatarUrl: string // 头像
-  isEnabled: number // 启用状态，默认开启
-  menuList: any
-  permissionList: any // 权限列表
+
+export interface LoginRequest {
+  username: string,
+  password: string
 }
+
+export interface LoginResponse {
+  code: number,
+  message: string
+  data: {
+    token: string,
+    refreshToken: string
+  }
+}
+
+
+// getByUserList
+export interface GetByUserListRequest {
+  page: number;
+  pageSize: number;
+  userName: string;
+  email: string;
+}
+
+
+
+export interface GetByUserListResponse {
+  page: number;
+  pageSize: number;
+  total: number;
+  list: User[];
+}
+
+export type SpecificApiResponse = ApiResponse<GetByUserListResponse>;
+

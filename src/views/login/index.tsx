@@ -1,19 +1,23 @@
 import logo from '@/assets/image/login/logo.svg'
-import question from '@/assets/image/login/question.png'
-import { LoginParams } from '@/types/login';
+// import question from '@/assets/image/login/question.png'
+import { LoginRequest } from '@/types/user';
 import { LockOutlined, UserOutlined } from '@ant-design/icons';
-import { Button, Checkbox, Form, Input, Tabs, message } from 'antd';
+import { Button, Form, Input, Tabs, message } from 'antd';
 import { useState } from 'react';
 import { useNavigate } from "react-router";
 import { useUserProvider } from '@/provider/modules/user';
+
+
 export default function Login() {
 
-  const [loading, setLoading] = useState<boolean>(false)
+  const [loading, setLoading] = useState<boolean>(false);
 
   const { handleLogin } = useUserProvider();
 
-  const navigate = useNavigate()
+  const navigate = useNavigate();
 
+
+  const [form] = Form.useForm();
 
   const formTabs = () => [
     {
@@ -22,37 +26,26 @@ export default function Login() {
       children: (
         <Form
           className='w-[100%]'
+          form={form} // 将 form 实例传递给 Form
           name="basic"
           initialValues={{ remember: true }}
           onFinish={onFinish}
           autoComplete="off"
         >
-          <Form.Item<LoginParams>
+          <Form.Item
             name="username"
             rules={[{ required: true, message: 'Please input your username!' }]}
           >
             <Input prefix={<UserOutlined className="text-[#689ffb]" />} placeholder='账户名 / 手机号 / 邮箱' />
           </Form.Item>
 
-          <Form.Item<LoginParams>
+          <Form.Item
             name="password"
             rules={[{ required: true, message: 'Please input your password!' }]}
           >
             <Input.Password prefix={<LockOutlined className="text-[#689ffb]" />} placeholder='密码' />
           </Form.Item>
-          <div className="flex justify-between items-baseline">
-            <Form.Item<LoginParams>
-              name="showPwd"
-              valuePropName="checked"
-              className='h-[100%]'
-            >
-              <Checkbox>记住密码</Checkbox>
-            </Form.Item>
-            <div className='flex items-center'>
-              <div>忘记密码</div>
-              <img src={question} className='w-[20px] h-[20px] ml-2' />
-            </div>
-          </div>
+
           <Form.Item>
             <Button type="primary" htmlType="submit" block loading={loading}>
               Submit
@@ -64,16 +57,17 @@ export default function Login() {
   ];
 
 
-  // 默认情况不登陆 有后台可以放开注释
-  const onFinish = async (values: LoginParams) => {
-    setLoading(true)
-    navigate("/")
+
+  const onFinish = async (values: LoginRequest) => {
+    setLoading(true);
     try {
-      // handleLogin(values)
-      setLoading(false)
+      await handleLogin(values);
+      setLoading(false);
+      navigate("/");
     } catch (error: any) {
-      setLoading(false)
-      message.error(error)
+      console.log(error, "error");
+      setLoading(false);
+      message.error(error.message);
     }
   };
 
@@ -86,11 +80,11 @@ export default function Login() {
       <div className='flex flex-col'>
         <div className="w-[368px]">
           <div className="flex items-center">
-            <img src={logo} className="w-[94px] h-[57px] mb-[20px] mr-5"></img>
+            <img src={logo} className="w-[94px] h-[57px] mb-[20px] mr-5" alt="logo"></img>
             <span className="w-[200px] h-[35px] opacity-100 text-[22px] font-bold mb-5">li-Admin后台管理</span>
           </div>
         </div>
-        <div >
+        <div>
           <Tabs defaultActiveKey="1" items={formTabs()} onChange={onChange} />
         </div>
       </div>

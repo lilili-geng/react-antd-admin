@@ -12,23 +12,17 @@ export const routersConfig: IRouterConfig[] = [{
   title: ''
 },
 {
-  path: '/test',
+  path: '/basicData',
   layout: BaseLayout,
-  element: lazy(() => import('@/views/test/index')),
+  element: lazy(() => import('@/views/user/index')),
   icon: <FilePdfOutlined />,
   title: '基础资料',
   children: [
     {
       path: '',
       layout: null,
-      element: lazy(() => import('@/views/test/ceshi/index')),
-      title: '测试1',
-    },
-    {
-      path: 'ceshitest',
-      layout: null,
-      element: lazy(() => import('@/views/test/ceshitest/index')),
-      title: '测试2',
+      element: lazy(() => import('@/views/user/list/index')),
+      title: '用户管理',
     },
   ],
 },

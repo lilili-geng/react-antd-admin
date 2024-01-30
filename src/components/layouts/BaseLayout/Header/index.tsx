@@ -1,7 +1,7 @@
 import "./index.less"
 import SlideLogo from "@/assets/image/login/logo.svg"
 import UserDefalutIcon from "@/components/layouts/image/user-defalut-icon.png"
-import { MenuProps, Select } from 'antd';
+import { MenuProps } from 'antd';
 import { Dropdown } from 'antd';
 import { FullscreenExitOutlined, FullscreenOutlined, SwapRightOutlined, UnorderedListOutlined } from "@ant-design/icons";
 import { useUserProvider } from '@/provider/modules/user';
@@ -11,11 +11,11 @@ import { useLayoutProvider } from "@/provider/modules/layout";
 
 
 // 暂时没有传参 后期要修改把any替换成正确类型
-export const Headers = (props: any) => {
+export const Headers = () => {
 
   const { logout } = useUserProvider();
 
-  const { fullscreen, toggleFullscreen, currentMode } = useLayoutProvider();
+  const { fullscreen, toggleFullscreen } = useLayoutProvider();
 
 
   let { i18n } = useTranslation()

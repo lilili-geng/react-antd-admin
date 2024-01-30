@@ -4,6 +4,7 @@ import App from "./App"
 import './index.less'
 import '@/i18n'
 
+
 ReactDOM.createRoot(document.getElementById('root')!).render(
   <React.StrictMode>
     <App />

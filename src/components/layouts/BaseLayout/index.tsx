@@ -27,7 +27,7 @@ export const BaseLayout: React.FC<BaseLayoutProps> = ({ children }) => {
             <Content
               className='bg-li-bg'
             >
-              <div className="text-center ">
+              <div className="text-center h-full">
                 {children}
               </div>
             </Content>

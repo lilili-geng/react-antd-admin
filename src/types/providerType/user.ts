@@ -1,9 +1,6 @@
-import { LoginAPI, ServiceLogin } from "../login";
-import { GetServiceUserInfoReply } from "../user";
+import { LoginRequest, LoginResponse } from "../user";
 
 export interface UserContextValue {
-  userInfo: GetServiceUserInfoReply | undefined;
-  fetchUser: () => Promise<void>;
-  handleLogin: (data: LoginAPI) => Promise<ServiceLogin>;
+  handleLogin: (data: LoginRequest) => Promise<LoginResponse>;
   logout: () => Promise<void>;
 }
