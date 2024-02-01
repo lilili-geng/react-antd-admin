@@ -1,20 +1,30 @@
-import { Button, Card, Form, Input, Space, Switch, Table, TableProps } from 'antd';
-import { GetByUserListRequest, GetByUserListResponse, SpecificApiResponse, User } from '@/types/user';
-import { fetchGetByUserList } from '@/api';
-import { useEffect, useState } from 'react';
+import { Button, Card, Form, Input, Pagination, PaginationProps, Space, Switch, Table, TableProps, message } from 'antd';
+import { GetByUserListRequest, SpecificApiResponse, UserById, User } from '@/types/user';
+import { fetchDeleteByUserId, fetchGetByUserList, fetchRegister, fetchUpdateByUser } from '@/api';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import dayjs from 'dayjs';
+import UserListFormModal from './UserListFormModal';
 
 const List = () => {
 
-
   const [UserListParams, setUserListParams] = useState<GetByUserListRequest>({
     page: 1,
-    pageSize: 10,
+    pageSize: 7,
     email: "",
     userName: ""
   })
 
   const [UserList, setUserList] = useState<User[] | undefined>()
+
+  const [total, setTotal] = useState(0);
+
+
+  const [selectedRowKeys, setSelectedRowKeys] = useState<React.Key[]>([]);
+
+
+  const [loading, setLoading] = useState(false);
+
+  const userListFormModalRef = useRef<any>(); // 使用 React.RefObject<any> 类型
 
 
   const CardForm = () => {
@@ -56,6 +66,7 @@ const List = () => {
 
     );
   }
+
 
   const UserListTable = () => {
     const columns: TableProps<User>['columns'] = [
@@ -113,42 +124,107 @@ const List = () => {
         key: 'action',
         render: (_, record) => (
           <Space size="middle">
-            <a className='text-li-colorBlue'>查看</a>
-            <a className='text-red-500'>删除</a>
-          </Space>
+            <Button
+              type="link"
+              onClick={() => updateAndAdd(record.id)}
+            >
+              修改
+            </Button>
+          </Space >
         ),
       },
     ];
 
     return (
-      <Table bordered columns={columns} dataSource={UserList} rowKey="id" />
+      <div >
+        <Table bordered rowKey={row => row.id} rowSelection={rowSelection} columns={columns} dataSource={UserList} pagination={false} />
+        <Pagination className='flex justify-end  mt-2' current={UserListParams.page} pageSize={UserListParams.pageSize} total={total} onChange={onChange} />
+      </div>
     )
   }
 
+  const onChange: PaginationProps['onChange'] = (page) => {
+    console.log(page);
+    setUserListParams((prevParams) => ({
+      ...prevParams,
+      page,
+    }));
+  };
+
   useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const res: SpecificApiResponse = await fetchGetByUserList(UserListParams);
-        console.log(res);
-        setUserList(res.data.list)
-
-        console.log(UserList, "user");
-      } catch (error) {
-        console.log(error);
-      }
-    };
-
-    fetchData();
+    fetchData(UserListParams);
   }, [UserListParams]);
 
 
-  const onFinish = (values: GetByUserListRequest) => {
-    // 更新状态
-    setUserListParams({
-      ...UserListParams,
-      ...values,
-    });
+  const fetchData = async (values: GetByUserListRequest) => {
+    try {
+      const res: SpecificApiResponse = await fetchGetByUserList(values);
+      setUserList(res.data.list);
+      setTotal(res.data.total);
+    } catch (error) {
+      console.log(error);
+    }
   };
+
+  const onFinish = (values: GetByUserListRequest) => {
+    setUserListParams((prevParams) => ({
+      ...prevParams,
+      ...values,
+    }));
+  };
+
+
+  const rowSelection = {
+    selectedRowKeys,
+    onChange: (key: React.Key[]) => {
+      setSelectedRowKeys(key);
+    },
+  };
+
+  const hasSelected = selectedRowKeys.length > 0;
+
+  const deleteUserById = async () => {
+    setLoading(true);
+    try {
+      if (UserList && selectedRowKeys.length > 0) {
+        const selectedRowKeysAsNumbers = selectedRowKeys.map((key) => Number(key));
+        const res = await fetchDeleteByUserId(selectedRowKeysAsNumbers);
+        message.success("delete " + res.message)
+      }
+    } catch (error) {
+      console.error('Error:', error);
+    } finally {
+      // 无论成功或失败都会执行的代码
+      setTimeout(() => {
+        setSelectedRowKeys([]);
+        setLoading(false);
+        fetchData(UserListParams)
+      }, 1000);
+    }
+  };
+
+  const handleOk = async (values: any) => {
+    try {
+      if (values.id) {
+        const res: UserById = await fetchUpdateByUser(values);
+        message.success("update " + res.message);
+      } else {
+        const res: UserById = await fetchRegister(values);
+        message.success("addUser " + res.message);
+      }
+      userListFormModalRef.current.setVisible(false);
+    } catch (error) {
+      console.error('handleOk:', error);
+    } finally {
+      fetchData(UserListParams)
+    }
+  };
+
+  const updateAndAdd = (id?: number | null) => {
+    userListFormModalRef.current.fetchData(id);
+    userListFormModalRef.current.form.resetFields()
+    userListFormModalRef.current.setVisible(true);
+  }
 
 
   return (
@@ -156,9 +232,18 @@ const List = () => {
       <div className='w-full h-full flex flex-col'>
         {CardForm()}
         <Card className='mt-2 flex-1'>
+          <div className='flex justify-start mb-2'>
+            <Button type="primary" className='mr-2' onClick={() => { updateAndAdd(0) }}>
+              新增
+            </Button>
+            <Button danger onClick={deleteUserById} disabled={!hasSelected} loading={loading}>
+              删除
+            </Button>
+          </div>
           <UserListTable />
         </Card>
       </div>
+      <UserListFormModal ref={userListFormModalRef} onCancel={() => { userListFormModalRef.current.setVisible(false) }} onOk={handleOk} />
     </div>
   );
 };

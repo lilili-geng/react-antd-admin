@@ -32,14 +32,14 @@ export default function Login() {
           onFinish={onFinish}
           autoComplete="off"
         >
-          <Form.Item
+          <Form.Item<LoginRequest>
             name="username"
             rules={[{ required: true, message: 'Please input your username!' }]}
           >
             <Input prefix={<UserOutlined className="text-[#689ffb]" />} placeholder='账户名 / 手机号 / 邮箱' />
           </Form.Item>
 
-          <Form.Item
+          <Form.Item<LoginRequest>
             name="password"
             rules={[{ required: true, message: 'Please input your password!' }]}
           >

@@ -50,5 +50,20 @@ export interface GetByUserListResponse {
   list: User[];
 }
 
+
 export type SpecificApiResponse = ApiResponse<GetByUserListResponse>;
 
+export type DeleteUserById = ApiResponse<{}>;
+
+export type UserById = ApiResponse<{}>;
+
+
+
+// userListFormModal
+export interface UserListFormModalProps {
+  onCancel: () => void;
+  onOk: (values: any) => void;
+}
+
+// fetchGetByUserId
+export type fetchGetByUser = ApiResponse<User>;
