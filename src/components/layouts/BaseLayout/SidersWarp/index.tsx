@@ -30,7 +30,7 @@ export const SidersWarp = () => {
   const slideWarpClassName = showSidersWarp ? 'li-slide-warp no-drawer ' : 'li-slide-warp no-drawer sidebar-open-warp ';
 
   return (
-    <div className={`bg-li-bg border-r-1 border-li-border-color ${slideWarpClassName}`}>
+    <div className={`bg-li-bg border-r-1 border-li-border-color h-full ${slideWarpClassName}`}>
       <div className="warp-box">
         {
           showSidersWarp && <div className="text-li-color font-bold">{menuListTitlte || localStorage.getItem("menuListTitlte")}</div>

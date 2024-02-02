@@ -1,3 +1,4 @@
+import { message } from 'antd';
 import Axios, { AxiosRequestConfig, AxiosResponse } from 'axios';
 
 interface ErrorResponse {
@@ -33,9 +34,16 @@ fetcher.interceptors.request.use((config: CustomAxiosRequestConfig) => {
 
 fetcher.interceptors.response.use(
   (resp: AxiosResponse) => {
+
+    if (resp.data?.code == 401) {
+      message.error(resp.data.message)
+    }
+
     if (resp.status >= 200 && resp.status <= 300) {
       return resp.data;
     }
+
+
     const error: ErrorResponse = {
       message: resp.data?.message || 'Server failed.',
     };

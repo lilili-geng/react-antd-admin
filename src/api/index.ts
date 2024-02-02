@@ -11,19 +11,19 @@ export const fetchRegister = (data: LoginRequest): Promise<UserById> => {
 };
 
 export const fetchGetByUserList = (data: GetByUserListRequest): Promise<SpecificApiResponse> => {
-  return fetcher.get('/getByUserList', { params: data });
+  return fetcher.get('/user/getByUserList', { params: data });
 };
 
 export const fetchGetByUserId = (id: number): Promise<fetchGetByUser> => {
-  return fetcher.get(`/getByUserId?id=${id}`);
+  return fetcher.get(`/user/getByUserId?id=${id}`);
 };
 
 export const fetchUpdateByUser = (data: User): Promise<UserById> => {
-  return fetcher.post('/updateUser', data);
+  return fetcher.post('/user/updateUser', data);
 };
 
 export const fetchDeleteByUserId = (ids: number[]): Promise<DeleteUserById> => {
-  return fetcher.delete(`/deleteUserById?userId=${ids}`);
+  return fetcher.delete(`/user/deleteUserById?userId=${ids}`);
 };
 
 

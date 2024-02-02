@@ -29,7 +29,7 @@ const List = () => {
 
   const CardForm = () => {
     return (
-      <div className='h-fit'>
+      <div className='h-full'>
         <Card>
           <Form
             name="basic"
@@ -228,7 +228,7 @@ const List = () => {
 
 
   return (
-    <div className='text-li-color p-2 bg-li-fitbg w-full h-full flex flex-col'>
+    <div className='text-li-color p-2  w-full h-full flex flex-col'>
       <div className='w-full h-full flex flex-col'>
         {CardForm()}
         <Card className='mt-2 flex-1'>
