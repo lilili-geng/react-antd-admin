@@ -3,7 +3,7 @@ import { GetByUserListRequest, SpecificApiResponse, UserById, User } from '@/typ
 import { fetchDeleteByUserId, fetchGetByUserList, fetchRegister, fetchUpdateByUser } from '@/api';
 import { useEffect, useMemo, useRef, useState } from 'react';
 import dayjs from 'dayjs';
-import UserListFormModal from './UserListFormModal';
+import UserListFormModal from './userListFormModal';
 
 const List = () => {
 

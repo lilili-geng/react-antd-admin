@@ -14,15 +14,21 @@ export const routersConfig: IRouterConfig[] = [{
 {
   path: '/basicData',
   layout: BaseLayout,
-  element: lazy(() => import('@/views/user/index')),
+  element: lazy(() => import('@/views/basicData/index')),
   icon: <FilePdfOutlined />,
   title: '基础资料',
   children: [
     {
       path: '',
       layout: null,
-      element: lazy(() => import('@/views/user/list/index')),
+      element: lazy(() => import('@/views/basicData/user/list/index')),
       title: '用户管理',
+    },
+    {
+      path: 'role',
+      layout: null,
+      element: lazy(() => import('@/views/basicData/role/list/index')),
+      title: '角色管理',
     },
   ],
 },
