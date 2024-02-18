@@ -1,7 +1,7 @@
 import { Button, Card, Form, Input, Pagination, PaginationProps, Space, Switch, Table, TableProps, message } from 'antd';
-import { GetByUserListRequest, SpecificApiResponse, UserById, User } from '@/types/user';
+import { GetByUserListRequest, SpecificUserApiResponse, UserById, User } from '@/types/user';
 import { fetchDeleteByUserId, fetchGetByUserList, fetchRegister, fetchUpdateByUser } from '@/api';
-import { useEffect, useMemo, useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import dayjs from 'dayjs';
 import UserListFormModal from './userListFormModal';
 
@@ -158,7 +158,8 @@ const List = () => {
 
   const fetchData = async (values: GetByUserListRequest) => {
     try {
-      const res: SpecificApiResponse = await fetchGetByUserList(values);
+      const res: SpecificUserApiResponse = await fetchGetByUserList(values);
+      console.log(res, "res");
       setUserList(res.data.list);
       setTotal(res.data.total);
     } catch (error) {

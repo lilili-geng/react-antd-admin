@@ -15,6 +15,7 @@ export interface User {
   loginTime: Date | null;
   loginOutTime: Date | null;
   isLogOut: boolean;
+  roleID?: number
 }
 
 
@@ -51,7 +52,8 @@ export interface GetByUserListResponse {
 }
 
 
-export type SpecificApiResponse = ApiResponse<GetByUserListResponse>;
+
+export type SpecificUserApiResponse = ApiResponse<GetByUserListResponse>;
 
 export type DeleteUserById = ApiResponse<{}>;
 

@@ -1,4 +1,4 @@
-import { message } from 'antd';
+import { Modal } from 'antd';
 import Axios, { AxiosRequestConfig, AxiosResponse } from 'axios';
 
 interface ErrorResponse {
@@ -12,6 +12,7 @@ interface CustomAxiosRequestConfig extends AxiosRequestConfig {
 const fetcher = Axios.create({
   headers: {},
 });
+
 
 const token = localStorage.getItem('_accessToken') || ''
 
@@ -32,11 +33,22 @@ fetcher.interceptors.request.use((config: CustomAxiosRequestConfig) => {
   return config;
 });
 
+
+
 fetcher.interceptors.response.use(
   (resp: AxiosResponse) => {
-
     if (resp.data?.code == 401) {
-      message.error(resp.data.message)
+      return Modal.confirm({
+        title: '登录失败',
+        content: '是否重新登陆',
+        okText: "登陆",
+        cancelText: "退出",
+        cancelButtonProps: { style: { display: 'none' } },
+        onOk() {
+          localStorage.clear();
+          location.reload();
+        },
+      });
     }
 
     if (resp.status >= 200 && resp.status <= 300) {

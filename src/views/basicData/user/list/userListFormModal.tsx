@@ -1,7 +1,7 @@
 import { fetchGetByUserId } from '@/api';
 import { User, UserListFormModalProps, fetchGetByUser } from '@/types';
-import { Modal, Form, Input } from 'antd';
-import { forwardRef, useEffect, useImperativeHandle, useState } from 'react';
+import { Modal, Form, Input, Select } from 'antd';
+import { forwardRef, useImperativeHandle, useState } from 'react';
 
 const UserListFormModal = forwardRef<any, UserListFormModalProps>(({ onCancel, onOk }, ref) => {
 
@@ -10,6 +10,7 @@ const UserListFormModal = forwardRef<any, UserListFormModalProps>(({ onCancel, o
   const [visible, setVisible] = useState<boolean>(false);
 
   const [formId, setformId] = useState<number>(0)
+
 
   const handleOk = async () => {
     try {
@@ -26,25 +27,31 @@ const UserListFormModal = forwardRef<any, UserListFormModalProps>(({ onCancel, o
 
   const fetchData = async (id: number) => {
     setformId(id)
-    console.log(formId, "formId");
-    try {
-      const res: fetchGetByUser = await fetchGetByUserId(id);
-      form.setFieldsValue({
-        userName: res.data.userName,
-        passWord: res.data.passWord,
-        phone: res.data.phone,
-        email: res.data.email,
-      });
-    } catch (error) {
-      console.log(error);
+    if (id) {
+      try {
+        const res: fetchGetByUser = await fetchGetByUserId(id);
+        console.log(res, "resss");
+        form.setFieldsValue({
+          userName: res.data.userName,
+          passWord: res.data.passWord,
+          phone: res.data.phone,
+          email: res.data.email,
+          roleID: res.data.roleID
+        });
+      } catch (error) {
+        console.log(error);
+      }
     }
   };
+
+
 
   useImperativeHandle(ref, () => ({
     form,
     setVisible,
     fetchData
   }));
+
 
   return (
     <Modal
@@ -92,6 +99,24 @@ const UserListFormModal = forwardRef<any, UserListFormModalProps>(({ onCancel, o
           ]}
         >
           <Input />
+        </Form.Item>
+
+        <Form.Item
+          name="roleID"
+          label="role"
+          rules={[
+            { required: true, message: 'role不能为空' },
+          ]}
+        >
+          <Select
+            options={[{ value: 1, label: '超级管理员' }, { value: 2, label: '用户' },]}
+            allowClear
+            onChange={(value: string) => {
+              if (!value) {
+
+              }
+            }}
+          />
         </Form.Item>
       </Form>
     </Modal>

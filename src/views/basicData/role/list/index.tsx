@@ -1,20 +1,20 @@
-import { Button, Card, Form, Input, Pagination, PaginationProps, Space, Switch, Table, TableProps, message } from 'antd';
-import { GetByUserListRequest, SpecificApiResponse, UserById, User } from '@/types/user';
-import { fetchDeleteByUserId, fetchGetByUserList, fetchRegister, fetchUpdateByUser } from '@/api';
-import { useEffect, useMemo, useRef, useState } from 'react';
+import { Button, Card, Form, Input, Pagination, PaginationProps, Select, Space, Switch, Table, TableProps, message } from 'antd';
+import { GetByRoleListRequest, SpecificRoleApiResponse, UserById, User, Role } from '@/types';
+import { fetchDeleteByUserId, fetchGetByRoleList, fetchRegister, fetchUpdateByUser } from '@/api';
+import { useEffect, useRef, useState } from 'react';
 import dayjs from 'dayjs';
 import RoleListFormModal from './roleListFormModal';
 
 const List = () => {
 
-  const [UserListParams, setUserListParams] = useState<GetByUserListRequest>({
+  const [RoleListParams, setRoleListParams] = useState<GetByRoleListRequest>({
     page: 1,
     pageSize: 7,
-    email: "",
-    userName: ""
+    roleName: "",
+    roleStatus: ""
   })
 
-  const [UserList, setUserList] = useState<User[] | undefined>()
+  const [RoleList, setRoleList] = useState<Role[] | undefined>()
 
   const [total, setTotal] = useState(0);
 
@@ -26,33 +26,44 @@ const List = () => {
 
   const roleListFormModalRef = useRef<any>(); // 使用 React.RefObject<any> 类型
 
+  const [form] = Form.useForm(); // 创建表单实例
 
   const CardForm = () => {
     return (
       <div className='h-full'>
         <Card>
           <Form
+            form={form}
             name="basic"
             initialValues={{ remember: true }}
             onFinish={onFinish}
             autoComplete="off"
             layout='inline'
           >
-            <Form.Item<GetByUserListRequest>
-              label="用户名"
-              name="userName"
+            <Form.Item<GetByRoleListRequest>
+              label="权限字符"
+              name="roleName"
             >
               <Input />
             </Form.Item>
 
-            <Form.Item<GetByUserListRequest>
-              label="邮箱"
-              name="email"
-              rules={[
-                { type: 'email', message: '请输入有效的邮箱地址' },
-              ]}
+            <Form.Item<GetByRoleListRequest>
+              label="状态"
+              name="roleStatus"
             >
-              <Input />
+              <Select
+                style={{ width: 200, "textAlign": "left" }}
+                options={[{ value: '0', label: '正常' }, { value: '1', label: '停用' },]}
+                allowClear
+                onChange={(value: string) => {
+                  if (!value) {
+                    setRoleListParams((prevParams) => ({
+                      ...prevParams,
+                      roleStatus: "",
+                    }));
+                  }
+                }}
+              />
             </Form.Item>
 
             <Form.Item wrapperCol={{ offset: 8, span: 16 }}>
@@ -69,23 +80,20 @@ const List = () => {
 
 
   const RoleListTable = () => {
-    const columns: TableProps<User>['columns'] = [
+    const columns: TableProps<Role>['columns'] = [
+
       {
-        title: '用户名',
-        dataIndex: 'userName',
-        key: 'userName',
+        title: '权限字符',
+        dataIndex: 'roleName',
+        key: 'roleName',
         render: (text) => <a>{text}</a>,
       },
       {
-        title: '手机号',
-        dataIndex: 'phone',
-        key: 'phone',
+        title: '顺序',
+        dataIndex: 'sort',
+        key: 'sort',
       },
-      {
-        title: '邮箱地址',
-        dataIndex: 'email',
-        key: 'email',
-      },
+
       {
         title: '登陆时间',
         dataIndex: 'loginAt',
@@ -105,9 +113,15 @@ const List = () => {
         render: (text) => text ? dayjs(text).format('YYYY-MM-DD HH:mm:ss') : '-',
       },
       {
+        title: '备注',
+        dataIndex: 'remark',
+        key: 'remark',
+        render: (text) => <a>{text}</a>,
+      },
+      {
         title: '是否注销',
-        dataIndex: 'isLogOut',
-        key: 'isLogOut',
+        dataIndex: 'roleStatus',
+        key: 'roleStatus',
         render: (text) => {
           return (
             <div>
@@ -137,37 +151,38 @@ const List = () => {
 
     return (
       <div >
-        <Table bordered rowKey={row => row.id} rowSelection={rowSelection} columns={columns} dataSource={UserList} pagination={false} />
-        <Pagination className='flex justify-end  mt-2' current={UserListParams.page} pageSize={UserListParams.pageSize} total={total} onChange={onChange} />
+        <Table bordered rowKey={row => row.id} rowSelection={rowSelection} columns={columns} dataSource={RoleList} pagination={false} />
+        <Pagination className='flex justify-end  mt-2' current={RoleListParams.page} pageSize={RoleListParams.pageSize} total={total} onChange={onChange} />
       </div>
     )
   }
 
   const onChange: PaginationProps['onChange'] = (page) => {
     console.log(page);
-    setUserListParams((prevParams) => ({
+    setRoleListParams((prevParams) => ({
       ...prevParams,
       page,
     }));
   };
 
   useEffect(() => {
-    fetchData(UserListParams);
-  }, [UserListParams]);
+    fetchData(RoleListParams);
+  }, [RoleListParams]);
 
 
-  const fetchData = async (values: GetByUserListRequest) => {
+  const fetchData = async (values: GetByRoleListRequest) => {
     try {
-      const res: SpecificApiResponse = await fetchGetByUserList(values);
-      setUserList(res.data.list);
+      const res: SpecificRoleApiResponse = await fetchGetByRoleList(values);
+      console.log(res);
+      setRoleList(res.data.list);
       setTotal(res.data.total);
     } catch (error) {
       console.log(error);
     }
   };
 
-  const onFinish = (values: GetByUserListRequest) => {
-    setUserListParams((prevParams) => ({
+  const onFinish = (values: GetByRoleListRequest) => {
+    setRoleListParams((prevParams) => ({
       ...prevParams,
       ...values,
     }));
@@ -186,7 +201,7 @@ const List = () => {
   const deleteUserById = async () => {
     setLoading(true);
     try {
-      if (UserList && selectedRowKeys.length > 0) {
+      if (RoleList && selectedRowKeys.length > 0) {
         const selectedRowKeysAsNumbers = selectedRowKeys.map((key) => Number(key));
         const res = await fetchDeleteByUserId(selectedRowKeysAsNumbers);
         message.success("delete " + res.message)
@@ -198,7 +213,7 @@ const List = () => {
       setTimeout(() => {
         setSelectedRowKeys([]);
         setLoading(false);
-        fetchData(UserListParams)
+        fetchData(RoleListParams)
       }, 1000);
     }
   };
@@ -216,7 +231,7 @@ const List = () => {
     } catch (error) {
       console.error('handleOk:', error);
     } finally {
-      fetchData(UserListParams)
+      fetchData(RoleListParams)
     }
   };
 

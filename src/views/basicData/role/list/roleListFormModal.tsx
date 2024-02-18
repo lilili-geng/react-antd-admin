@@ -1,7 +1,7 @@
 import { fetchGetByUserId } from '@/api';
 import { User, UserListFormModalProps, fetchGetByUser } from '@/types';
 import { Modal, Form, Input } from 'antd';
-import { forwardRef, useEffect, useImperativeHandle, useState } from 'react';
+import { forwardRef, useImperativeHandle, useState } from 'react';
 
 const RoleListFormModal = forwardRef<any, UserListFormModalProps>(({ onCancel, onOk }, ref) => {
 
