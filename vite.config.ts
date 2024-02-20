@@ -11,7 +11,7 @@ export default defineConfig({
     host: '0.0.0.0',
     proxy: {
       '/dev-api': {
-        target: 'http://localhost:80', // 后端服务的地址和端口
+        target: 'http://192.210.220.185/', // 后端服务的地址和端口
         secure: false,
         changeOrigin: true,
         rewrite: (path) => path.replace(/^\/dev-api/, ''),

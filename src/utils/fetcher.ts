@@ -18,10 +18,16 @@ const token = localStorage.getItem('_accessToken') || ''
 
 fetcher.interceptors.request.use((config: CustomAxiosRequestConfig) => {
 
-  if (import.meta.env.DEV) {
-    config.baseURL = import.meta.env.VITE_APP_BASE_API;
-    config.url = config.url;
-  }
+  // 判断当前环境
+  // const isProduction = import.meta.env.PROD;
+
+  config.baseURL = import.meta.env.VITE_APP_BASE_API;
+
+  // console.log(isProduction, "isProduction");
+  // console.log(config.baseURL, "config.baseURL");
+
+  // config.baseURL = import.meta.env.VITE_APP_BASE_API;
+  // config.url = config.url;
 
   if (config.url === "/oauth/token") {
     config.headers['Authorization'] = 'Basic ' + btoa('backend:123456');
