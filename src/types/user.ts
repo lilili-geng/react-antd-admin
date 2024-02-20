@@ -12,6 +12,7 @@ export interface User {
   avatar: string;
   email: string;
   salt: string;
+  status: string;
   loginTime: Date | null;
   loginOutTime: Date | null;
   isLogOut: boolean;

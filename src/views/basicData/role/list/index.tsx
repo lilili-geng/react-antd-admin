@@ -1,6 +1,6 @@
 import { Button, Card, Form, Input, Pagination, PaginationProps, Select, Space, Switch, Table, TableProps, message } from 'antd';
-import { GetByRoleListRequest, SpecificRoleApiResponse, UserById, User, Role } from '@/types';
-import { fetchDeleteByUserId, fetchGetByRoleList, fetchRegister, fetchUpdateByUser } from '@/api';
+import { GetByRoleListRequest, SpecificRoleApiResponse, UserById, Role } from '@/types';
+import { fetchDeleteByUserId, fetchGetByRoleList, fetchRegister, fetchUpdateByRole, fetchUpdateByUser } from '@/api';
 import { useEffect, useRef, useState } from 'react';
 import dayjs from 'dayjs';
 import RoleListFormModal from './roleListFormModal';
@@ -122,31 +122,31 @@ const List = () => {
         title: '是否注销',
         dataIndex: 'roleStatus',
         key: 'roleStatus',
-        render: (text) => {
+        render: (text, record) => {
           return (
             <div>
               <Switch
                 defaultChecked={text == 0}
-              // onChange={(checked) => handleSwitchChange(checked, record.id)}
+                onChange={(checked) => handleSwitchChange(checked, record)}
               />
             </div>
           )
         }
       },
-      {
-        title: 'Action',
-        key: 'action',
-        render: (_, record) => (
-          <Space size="middle">
-            <Button
-              type="link"
-              onClick={() => updateAndAdd(record.id)}
-            >
-              修改
-            </Button>
-          </Space >
-        ),
-      },
+      // {
+      //   title: 'Action',
+      //   key: 'action',
+      //   render: (_, record) => (
+      //     <Space size="middle">
+      //       <Button
+      //         type="link"
+      //         onClick={() => updateAndAdd(record.id)}
+      //       >
+      //         修改
+      //       </Button>
+      //     </Space >
+      //   ),
+      // },
     ];
 
     return (
@@ -242,19 +242,28 @@ const List = () => {
   }
 
 
+  const handleSwitchChange = async (type: boolean, role: Role) => {
+    console.log(type, role.id);
+    role.roleStatus = type ? "0" : "1";
+    const res = await fetchUpdateByRole(role)
+    console.log(res);
+  }
+
+
+
   return (
     <div className='text-li-color p-2  w-full h-full flex flex-col'>
       <div className='w-full h-full flex flex-col'>
         {CardForm()}
         <Card className='mt-2 flex-1'>
-          <div className='flex justify-start mb-2'>
+          {/* <div className='flex justify-start mb-2'>
             <Button type="primary" className='mr-2' onClick={() => { updateAndAdd(0) }}>
               新增
             </Button>
             <Button danger onClick={deleteUserById} disabled={!hasSelected} loading={loading}>
               删除
             </Button>
-          </div>
+          </div> */}
           <RoleListTable />
         </Card>
       </div>

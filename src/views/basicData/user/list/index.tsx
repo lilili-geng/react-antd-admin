@@ -108,12 +108,12 @@ const List = () => {
         title: '是否注销',
         dataIndex: 'isLogOut',
         key: 'isLogOut',
-        render: (text) => {
+        render: (text, record) => {
           return (
             <div>
               <Switch
                 defaultChecked={text == 0}
-              // onChange={(checked) => handleSwitchChange(checked, record.id)}
+                onChange={(checked) => handleSwitchChange(checked, record)}
               />
             </div>
           )
@@ -225,6 +225,13 @@ const List = () => {
     userListFormModalRef.current.fetchData(id);
     userListFormModalRef.current.form.resetFields()
     userListFormModalRef.current.setVisible(true);
+  }
+
+  const handleSwitchChange = async (type: boolean, user: User) => {
+    console.log(type, user.id);
+    user.status = type ? "0" : "1";
+    const res = await fetchUpdateByUser(user)
+    console.log(res);
   }
 
 
